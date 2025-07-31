@@ -1,9 +1,11 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import './signup.css';
 import { signupService } from '@/services/authServices';
+import { useRouter } from 'next/navigation';
+import { timeTagMap } from '@/utils/data';
 
 export default function SignUp() {
     const {
@@ -17,13 +19,53 @@ export default function SignUp() {
             email: '',
             password: '',
             confirmPassword: '',
-            preferredTime: '07:30',
+            preferredTime: '',
             allCheck: false
         }
     });
 
+    const [isSignUpSuccessfull, setsSignUpSuccessfull] = useState(-1);
+    const [submitMessage, setSubmitMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const router = useRouter();
+
     const onSubmit = async (data) => {
-        signupService(data);
+        try {
+            delete data.confirmPassword;
+            delete data.allCheck;
+
+            data.name = data.name.toLowerCase();
+            data.email = data.email.toLowerCase();
+
+            setIsLoading(true);
+            const res = await signupService(data);
+
+            if (res.status === 200) {
+                setsSignUpSuccessfull(1);
+                setSubmitMessage("🎉 Welcome! Your first challenge arrives tomorrow.");
+                router.push('/login');
+            }
+
+        } catch (errRes) {
+            console.log("Error while submitting", errRes);
+
+            setsSignUpSuccessfull(0);
+
+            switch (errRes.status) {
+                case 409:
+                    setSubmitMessage("❌ Email already exsists.");
+                    break;
+                case 500:
+                    setSubmitMessage("❌ Something wents wrong try again later.");
+                    break;
+            }
+        } finally {
+            setIsLoading(false);
+            setTimeout(() => {
+                setsSignUpSuccessfull(-1);
+            }, 3000);
+        }
     };
 
     const password = watch("password");
@@ -67,7 +109,7 @@ export default function SignUp() {
                     />
                 </div>
 
-             
+
                 <div className="auth-form-group">
                     <label htmlFor="password">Password</label>
                     <input
@@ -89,7 +131,7 @@ export default function SignUp() {
                     />
                 </div>
 
-            
+
                 <div className="auth-form-group">
                     <label htmlFor="confirmPassword">Confirm Password</label>
                     <input
@@ -118,14 +160,16 @@ export default function SignUp() {
                             required: "Preferred Time is required"
                         })}
                     >
-                        <option value="">Select preferred time</option>
-                        <option value="06:00">6:00 AM - Early Bird</option>
-                        <option value="07:00">7:00 AM - Morning Boost</option>
-                        <option value="07:30">7:30 AM - Default</option>
-                        <option value="08:00">8:00 AM</option>
-                        <option value="12:00">12:00 PM</option>
-                        <option value="17:00">5:00 PM</option>
-                        <option value="20:00">8:00 PM - Night Owl</option>
+                        <option value="">Select your preferred time</option>
+
+                        {Object.keys(timeTagMap).map((key) => {
+                            const timeArr = key.split(":");
+                            let hours = Number(timeArr[0]) % 12;
+                            if(hours === 0) hours = 12;
+                            const minutes = timeArr[1];
+
+                            return (<option value={key} key={key}>{hours}:{minutes} {timeArr[0] >= 12 ? " PM" : " AM"}  - {timeTagMap[key]}</option>)
+                        })}
                     </select>
                     <ErrorMessage
                         errors={errors}
@@ -155,17 +199,28 @@ export default function SignUp() {
                     </div>
                 </div>
 
-                <button type="submit" className="auth-subscribe-btn">
-                    Create Account & Start Learning
+                <button
+                    type="submit"
+                    className="auth-subscribe-btn"
+                    disabled={isLoading}
+                >
+                    {isLoading ? (
+                        <div className="flex items-center justify-center">
+                            <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Creating Account...
+                        </div>
+                    ) : (
+                        "Create Account & Start Learning"
+                    )}
                 </button>
 
-                <div className="auth-message auth-success-message" id="successMessage">
-                    🎉 Welcome! Your first challenge arrives tomorrow.
+                <div className={`auth-message auth-${isSignUpSuccessfull === 0 ? 'error' : (isSignUpSuccessfull === 1 && 'success')}-message`}>
+                    {submitMessage}
                 </div>
 
-                <div className="auth-message auth-error-message" id="errorMessage">
-                    ❌ Please check your information and try again.
-                </div>
             </form>
 
             <footer className="auth-footer">

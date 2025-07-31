@@ -128,12 +128,14 @@
 
 .auth-success-message {
     background: rgba(76, 175, 80, 0.9);
-    color: white;
+    color: white !important;
+    display: block;
 }
 
 .auth-error-message {
     background: rgba(244, 67, 54, 0.9);
-    color: white;
+    color: white !important;
+    display: block;
 }
 
 .auth-footer {
