@@ -14,6 +14,7 @@ const signupService = async (data) => {
     
 }
 
+
 const loginService = async (data) => {
     try {
         const res = await axios.post(`${apiURL}/users/login`, data);
