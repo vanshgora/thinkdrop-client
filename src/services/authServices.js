@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-const apiURL = 'http://localhost:3000';
+const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
 const signupService = async (data) => {
+    console.log(apiURL)
     try {
         const res = await axios.post(`${apiURL}/users/signup`, data);
         return res;
