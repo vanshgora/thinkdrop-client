@@ -35,7 +35,7 @@ export default function Home() {
               Wake up to a new challenge everyday at your selected timing. Receive emails with random topics,
               creative tasks, and brain-bending problems designed to build your multidimensional skillset.
             </p>
-            <a href="/signup" className="home-hero-button">
+            <a href="/login" className="home-hero-button">
               Get Started
             </a>
           </div>

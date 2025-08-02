@@ -41,11 +41,10 @@ export default function SignUp() {
             setIsLoading(true);
             const res = await signupService(data);
 
-            if (res.status === 200) {
-                setsSignUpSuccessfull(1);
-                setSubmitMessage("🎉 Welcome! Your first challenge arrives tomorrow.");
-                router.push('/login');
-            }
+            setsSignUpSuccessfull(1);
+            setSubmitMessage("🎉 Welcome! Your first challenge arrives tomorrow.");
+
+            router.push('/login');
 
         } catch (errRes) {
             console.log("Error while submitting", errRes);
@@ -165,7 +164,7 @@ export default function SignUp() {
                         {Object.keys(timeTagMap).map((key) => {
                             const timeArr = key.split(":");
                             let hours = Number(timeArr[0]) % 12;
-                            if(hours === 0) hours = 12;
+                            if (hours === 0) hours = 12;
                             const minutes = timeArr[1];
 
                             return (<option value={key} key={key}>{hours}:{minutes} {timeArr[0] >= 12 ? " PM" : " AM"}  - {timeTagMap[key]}</option>)

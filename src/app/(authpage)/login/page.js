@@ -26,12 +26,10 @@ export default function LogIn() {
             data.email = data.email.toLowerCase();
             setIsLoading(true);
             const res = await loginService(data);
+            setIsLoginSuccessfull(1);
+            setSubmitMessage(" Welcome! Again.");
 
-            if (res.status === 200) {
-                setIsLoginSuccessfull(1);
-                setSubmitMessage(" Welcome! Again.");
-                router.push("/dashboard");
-            }
+            router.push("/dashboard");
         } catch (errRes) {
             console.log("Error while submitting", errRes);
 
@@ -100,7 +98,7 @@ export default function LogIn() {
                     />
                 </div>
 
-                 <button
+                <button
                     type="submit"
                     className="auth-subscribe-btn"
                     disabled={isLoading}
