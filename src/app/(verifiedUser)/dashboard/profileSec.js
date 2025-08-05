@@ -7,10 +7,15 @@ import { useCallback, useEffect, useState } from 'react'
 export default function ProfileSec() {
 
     const [user, setUser] = useState();
+    const [remainigTime, setRemainingTime] = useState(0);
 
     useEffect(() => {
         setUser(getUser());
     }, []);
+
+    const getRemainingTime = () => {
+
+    }
 
     const getTimeString = useCallback((time) => {
         const timeArr = time.split(":");
@@ -62,7 +67,7 @@ export default function ProfileSec() {
                         {user && user.email}
                     </div>
                     <div className="mt-3 text-sm text-gray-500">
-                        <span className="font-medium">Preferred Time:</span> {user && getTimeString(user.preferredTime)}
+                        <span className="font-medium">Preferred Time:</span> {user && getTimeString(user.preferredTime)} <span>{(user && user.isPaused) ? "": `()`}</span>
                     </div>
                 </div>
             </div>

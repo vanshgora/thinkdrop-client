@@ -1,16 +1,20 @@
 'use client'
 
-import { getUser, updateEmialDelivery } from "@/services/userServices";
+import { getUser, logout, updateEmialDelivery } from "@/services/userServices";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function EventControlSec() {
 
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
 
   useEffect(() => {
     setUser(getUser());
   }, []);
+
+  const router = useRouter();
 
   const handleClick = async () => {
     if (loading) return;
@@ -24,6 +28,19 @@ export default function EventControlSec() {
       setLoading(false);
     }
   };
+
+  const handleLogout = () => {
+    if (loading) return;
+    setLogoutLoading(true);
+    try {
+      logout();
+      router.push('/');
+    } catch (error) {
+      console.error("Failed to toggle pause:", error);
+    } finally {
+      setLogoutLoading(false);
+    }
+  }
 
   return (
     <section className='bg-white rounded-xl shadow-md p-6 border border-gray-200 flex flex-col'>
@@ -61,14 +78,47 @@ export default function EventControlSec() {
               : 'Pause Challenges'}
         </button>
         <button
-          className="cursor-pointer w-full bg-red-100 hover:bg-red-200 text-red-700 font-medium py-3 px-4 rounded-lg transition duration-150 ease-in-out flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20"
-            fill="currentColor">
-            <path fillRule="evenodd"
-              d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-              clipRule="evenodd" />
-          </svg>
-          Logout
+          onClick={handleLogout}
+          disabled={loading}
+          className={`cursor-pointer w-full ${loading ? "bg-red-200" : "bg-red-100 hover:bg-red-200"
+            } text-red-700 font-medium py-3 px-4 rounded-lg transition duration-150 ease-in-out flex items-center justify-center`}
+        >
+          {logoutLoading ? (
+            <svg
+              className="animate-spin h-5 w-5 mr-2 text-red-700"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+              ></path>
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+                clipRule="evenodd"
+              />
+            </svg>
+          )}
+          {logoutLoading ? "Logging out..." : "Logout"}
         </button>
       </div>
     </section>

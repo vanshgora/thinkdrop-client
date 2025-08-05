@@ -14,6 +14,10 @@ const setUser = (data) => {
     if (typeof window !== 'undefined') localStorage.setItem('userData', JSON.stringify(data));
 };
 
+const deleteUser = () => {
+    localStorage.removeItem('userData');
+}
+
 const updateEmialDelivery = async (data) => {
     try {
         const res = await axios.patch(`${apiURL}/users/update-email-delivery`, data, {
@@ -22,7 +26,7 @@ const updateEmialDelivery = async (data) => {
         setUser(res.data.user);
         return res;
     } catch (err) {
-        console.log("Error in signup service:", err);
+        console.log("Error in update email delivery service:", err);
         throw (err);
     }
 }
@@ -35,9 +39,18 @@ const reSchedule = async (data) => {
         setUser(res.data.user);
         return res;
     } catch (err) {
-        console.log("Error in signup service:", err);
+        console.log("Error in reschedule service:", err);
         throw (err);
     }
 }
 
-export { getUser, setUser, updateEmialDelivery, reSchedule }
+const logout = () => {
+    try {
+        deleteUser();
+    } catch (err) {
+        console.log("Error in logout service:", err);
+        throw (err);
+    }
+}
+
+export { getUser, setUser, updateEmialDelivery, reSchedule, logout }
