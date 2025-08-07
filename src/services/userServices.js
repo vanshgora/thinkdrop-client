@@ -44,9 +44,10 @@ const reSchedule = async (data) => {
     }
 }
 
-const logout = () => {
+const logout = async () => {
     try {
         deleteUser();
+        const res = await axios.get(`${apiURL}/users/logout`);
     } catch (err) {
         console.log("Error in logout service:", err);
         throw (err);

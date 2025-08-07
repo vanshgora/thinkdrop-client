@@ -29,11 +29,11 @@ export default function EventControlSec() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (loading) return;
     setLogoutLoading(true);
     try {
-      logout();
+      await logout();
       router.push('/');
     } catch (error) {
       console.error("Failed to toggle pause:", error);
