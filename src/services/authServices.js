@@ -6,7 +6,9 @@ const apiURL = process.env.NEXT_PUBLIC_API_URL;
 const signupService = async (data) => {
     try {
         const res = await axios.post(`${apiURL}/users/signup`, data, {
-            withCredentials: true
+            headers: {
+                'Content-Type': 'application/josn'
+            }
         });
         setUser(res.data.user);
         return res;
