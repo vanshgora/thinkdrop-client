@@ -3,6 +3,7 @@
 import { getUser, logout, updateEmialDelivery } from "@/services/userServices";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { usePopupMessageContext } from "../contexts/hooks/popupmessagecontexthook";
 
 export default function EventControlSec() {
 
@@ -16,13 +17,17 @@ export default function EventControlSec() {
 
   const router = useRouter();
 
+  const { showPopup } = usePopupMessageContext();
+
   const handleClick = async () => {
     if (loading) return;
     setLoading(true);
     try {
       const res = await updateEmialDelivery({ isPaused: !user.isPaused, email: user.email });
       setUser(res.data.user);
+      showPopup(`${res.data.user.isPaused ? 'Paused' : 'Resumed'} Successfully`, "success");
     } catch (error) {
+      showPopup(`Operation Failed`, "error");
       console.error("Failed to toggle pause:", error);
     } finally {
       setLoading(false);

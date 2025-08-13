@@ -2,6 +2,7 @@
 import { getUser, reSchedule } from "@/services/userServices";
 import { timeTagMap } from "@/utils/data";
 import { useEffect, useState } from "react";
+import { usePopupMessageContext } from "../contexts/hooks/popupmessagecontexthook";
 
 export default function RescheduleSec() {
 
@@ -13,13 +14,17 @@ export default function RescheduleSec() {
         setUser(getUser());
     }, []);
 
+    const { showPopup } = usePopupMessageContext();
+
     const handleClick = async () => {
         if (loading) return;
         setLoading(true);
         try {
             const res = await reSchedule({ preferredTime: rescheduleTime, email: user.email });
             setUser(res.data.user);
+            showPopup("Rescheduled Successfully", "success");
         } catch (error) {
+            showPopup("Operation Failed", "error");
             console.error("Failed to toggle pause:", error);
         } finally {
             setLoading(false);

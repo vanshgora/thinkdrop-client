@@ -2,9 +2,6 @@ import './home.css'
 
 export default function Home() {
 
-  const onSubmit = (data) => {
-    console.log(data);
-  }
   return (
     <>
       <div className='home-page'>
