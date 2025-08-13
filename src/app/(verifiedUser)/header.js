@@ -1,23 +1,22 @@
 'use client'
 
 import { getUser } from "@/services/userServices";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function Header() {
+  const [user, setUser] = useState(null);
 
-  const [user, setUser] = useState(getUser());
+  useEffect(() => {
+    setUser(getUser()); // runs only on client
+  }, []);
 
   const abbriviate = (name) => {
     const nameArr = name.split(' ');
-    
     const resultArr = [];
-    for(let i = 0; i < nameArr.length; i++) {
+    for (let i = 0; i < nameArr.length; i++) {
       resultArr.push(nameArr[i][0].toUpperCase());
-      if(i >= 2) {
-        break;
-      }
+      if (i >= 2) break;
     }
-
     return resultArr.join('');
   }
 
@@ -39,7 +38,9 @@ export default function Header() {
             </button>
             <div className="flex-shrink-0">
               <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center">
-                <span className="text-indigo-600 uppercase font-medium">{user &&  abbriviate(user.name)}</span>
+                <span className="text-indigo-600 uppercase font-medium">
+                  {user && abbriviate(user.name)}
+                </span>
               </div>
             </div>
           </div>
