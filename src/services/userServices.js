@@ -54,4 +54,15 @@ const logout = async () => {
     }
 }
 
-export { getUser, setUser, updateEmialDelivery, reSchedule, logout }
+const getTodaysTask = async () => {
+    try {
+        const res = await axios.get(`${apiURL}/users/gettodaystask`, {
+            withCredentials: true
+        });
+        return res;
+    } catch (err) {
+        console.log("Error while getting task", err);
+    }
+}
+
+export { getUser, setUser, updateEmialDelivery, reSchedule, logout, getTodaysTask }

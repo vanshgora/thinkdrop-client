@@ -2,12 +2,15 @@
 
 import { getUser } from "@/services/userServices";
 import { useState, useEffect } from "react"
+import { useNavContext } from "./contexts/hooks/navcontexthook";
 
 export default function Header() {
   const [user, setUser] = useState(null);
 
+  const { activeTab } = useNavContext();
+
   useEffect(() => {
-    setUser(getUser()); // runs only on client
+    setUser(getUser());
   }, []);
 
   const abbriviate = (name) => {
@@ -26,7 +29,7 @@ export default function Header() {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <h1 className="text-xl font-bold text-gray-900">
-              <span className="text-indigo-600">Dashboard</span>
+              <span className="text-indigo-600 capitalize">{activeTab}</span>
             </h1>
           </div>
           <div className="flex items-center space-x-4">

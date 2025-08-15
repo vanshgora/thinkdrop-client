@@ -1,6 +1,13 @@
-import React from 'react'
+'use client'
+import { useRouter } from 'next/navigation';
+import { useNavContext } from './contexts/hooks/navcontexthook'
 
 export default function SideNav() {
+
+    const { activeTab, setActiveTab } = useNavContext();
+
+    const router = useRouter();
+
     return (
         <>
             <div className="flex flex-col w-64 border-r border-gray-200 bg-white">
@@ -12,8 +19,11 @@ export default function SideNav() {
 
                     <nav className="mt-5 flex-1 space-y-1 px-2">
                         <a
-                            href="#"
-                            className="bg-indigo-50 border-indigo-600 text-indigo-600 group flex items-center px-3 py-3 text-sm font-medium border-l-4"
+                            onClick={() => {
+                                setActiveTab('dashboard');
+                                router.push('/dashboard');
+                            }}
+                            className={`${(activeTab === 'dashboard') && 'bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4'} group flex items-center px-3 py-3 text-sm font-medium`}
                         >
                             <svg
                                 className="text-indigo-500 mr-3 h-5 w-5"
@@ -27,8 +37,11 @@ export default function SideNav() {
                             Dashboard
                         </a>
                         <a
-                            href="#"
-                            className="border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-3 text-sm font-medium border-l-4"
+                            onClick={() => {
+                                setActiveTab('today\'s task');
+                                router.push('/todaystask');
+                            }}
+                            className={`${(activeTab === 'today\'s task') && 'bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4'} group flex items-center px-3 py-3 text-sm font-medium`}
                         >
                             <svg
                                 className="text-gray-400 group-hover:text-gray-500 mr-3 h-5 w-5"
@@ -42,7 +55,7 @@ export default function SideNav() {
                                     clipRule="evenodd"
                                 />
                             </svg>
-                            Today's Task
+                            Today's Tasks
                         </a>
                     </nav>
                 </div>
