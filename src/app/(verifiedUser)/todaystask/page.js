@@ -17,11 +17,23 @@ export default function TodaysTask() {
 
     return (
         <div>
-            <div className="topic-section bg-white rounded-xl shadow-md p-6 border border-gray-200 space-y-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-2">{todaysTopic && todaysTopic.name}</h2>
+            <div className="topic-section bg-white rounded-xl shadow-md p-6 border border-gray-200 space-y-4">
+                <h2 className="text-xl font-bold text-gray-800">{todaysTopic?.name}</h2>
                 <p className="text-gray-600">
-                   {todaysTopic && todaysTopic.detail}
+                    {todaysTopic?.detail}
                 </p>
+                {todaysTopic?.tags?.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                        {todaysTopic.tags.map((tag) => (
+                            <span
+                                key={tag}
+                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+                            >
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                )}
             </div>
 
             <div className="task-section bg-white rounded-xl shadow-md p-6 border border-gray-200 space-y-6 mt-6">
@@ -32,7 +44,7 @@ export default function TodaysTask() {
                     Today's Task
                 </h3>
                 <ul className="space-y-2 list-disc list-inside text-gray-700">
-                    { todaysTopic && todaysTopic.task.map((step) => <li key={step}>{step}</li>)}
+                    {todaysTopic && todaysTopic.task.map((step) => <li key={step}>{step}</li>)}
                 </ul>
             </div>
 
@@ -44,7 +56,7 @@ export default function TodaysTask() {
                     Additional Resources
                 </h3>
                 <ul className="space-y-2">
-                    { todaysTopic && todaysTopic.resources.map((resource) =>  <li key={resource} className="text-indigo-600 hover:text-indigo-800 transition duration-150">{resource}</li>)}
+                    {todaysTopic && todaysTopic.resources.map((resource) => <li key={resource} className="text-indigo-600 hover:text-indigo-800 transition duration-150">{resource}</li>)}
                 </ul>
             </div>
         </div>
