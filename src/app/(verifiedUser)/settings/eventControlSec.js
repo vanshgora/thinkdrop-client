@@ -79,8 +79,8 @@ export default function EventControlSec() {
           {loading
             ? 'Processing...'
             : user?.isPaused
-              ? 'Resume Challenges'
-              : 'Pause Challenges'}
+              ? 'Resume Emails'
+              : 'Pause Emails'}
         </button>
         <button
           onClick={handleLogout}

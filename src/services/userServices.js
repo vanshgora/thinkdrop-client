@@ -65,4 +65,22 @@ const getTodaysTask = async () => {
     }
 }
 
-export { getUser, setUser, updateEmialDelivery, reSchedule, logout, getTodaysTask }
+const deleteAccount = async () => {
+       try {
+        const user = getUser();
+        console.log(user);
+        const res = await axios.delete(`${apiURL}/users/deleteaccount/${user._id}`, {
+            withCredentials: true
+        });
+        if(res && res.status != 200) {
+            throw("Server side error while deleting account")
+        }
+        deleteUser();
+        return res;
+    } catch (err) {
+        console.log("Error while deleting account", err);
+        throw(err);
+    }
+}
+
+export { getUser, setUser, updateEmialDelivery, reSchedule, logout, getTodaysTask, deleteAccount }

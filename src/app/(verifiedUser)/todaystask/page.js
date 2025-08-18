@@ -15,6 +15,24 @@ export default function TodaysTask() {
         });
     }, []);
 
+    function highlightBoldText(str, index) {
+        const parts = str.split(/\*\*(.*?)\*\*/g);
+
+        return (
+            <li key={index} className="text-gray-700">
+                {parts.map((part, i) =>
+                    i % 2 === 1 ? ( 
+                        <span key={i} className="text text-indigo-600 font-bold">
+                            {part}
+                        </span>
+                    ) : (
+                        part
+                    )
+                )}
+            </li>
+        );
+    }
+
     return (
         <div>
             <div className="topic-section bg-white rounded-xl shadow-md p-6 border border-gray-200 space-y-4">
@@ -43,8 +61,8 @@ export default function TodaysTask() {
                     </svg>
                     Today's Task
                 </h3>
-                <ul className="space-y-2 list-disc list-inside text-gray-700">
-                    {todaysTopic && todaysTopic.task.map((step) => <li key={step}>{step}</li>)}
+                <ul className="space-y-2 list-disc list-inside text-gray-700 marker:text-indigo-600">
+                    {todaysTopic && todaysTopic.task.map((step, i) => highlightBoldText(step, i))}
                 </ul>
             </div>
 
@@ -56,7 +74,11 @@ export default function TodaysTask() {
                     Additional Resources
                 </h3>
                 <ul className="space-y-2">
-                    {todaysTopic && todaysTopic.resources.map((resource) => <li key={resource} className="text-indigo-600 hover:text-indigo-800 transition duration-150">{resource}</li>)}
+                    {todaysTopic && todaysTopic.resources.map((resource) => (
+                        <li key={resource} className="text-indigo-600 hover:text-indigo-800 transition duration-150">
+                            {resource}
+                        </li>
+                    ))}
                 </ul>
             </div>
         </div>
