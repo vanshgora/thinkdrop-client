@@ -4,17 +4,36 @@ import { useNavContext } from './contexts/hooks/navcontexthook'
 
 export default function SideNav() {
 
-    const { activeTab, setActiveTab } = useNavContext();
+    const { activeTab, setActiveTab, isNavOpen, setIsNavOpen, windowWidth } = useNavContext();
 
     const router = useRouter();
 
     return (
         <>
-            <div className="flex flex-col w-64 border-r border-gray-200 bg-white">
+            {isNavOpen && (windowWidth < 680) ? <div className='fixed w-[100vw] h-[100vh] bg-indigo-600/50'></div> : <></>}
+            <div className={`${windowWidth < 680 ? 'fixed z-50' : ''} flex flex-col h-[100vh] ${isNavOpen ? 'w-64' : 'w-0'} border-r border-gray-200 bg-white`}>
+
                 <div className="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
 
                     <div className="flex-shrink-0 flex items-center px-4">
-                        <h1 className="text-xl font-bold text-gray-900">ThinkDrop</h1>
+                        <h1 className="text-xl font-bold text-gray-900">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                className={`w-8 h-8 text-indigo-600 font-bold ${windowWidth >= 680 ? 'hidden' : 'inline'} cursor-pointer mr-4`}
+                                onClick={() => setIsNavOpen(false)}
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                            ThinkDrop
+                        </h1>
                     </div>
 
                     <nav className="mt-5 flex-1 space-y-1 px-2">
@@ -22,6 +41,7 @@ export default function SideNav() {
                             onClick={() => {
                                 setActiveTab('dashboard');
                                 router.push('/dashboard');
+                                setIsNavOpen(false);
                             }}
                             className={`${(activeTab === 'dashboard') && 'bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4'} group flex items-center px-3 py-3 text-sm font-medium`}
                         >
@@ -40,6 +60,7 @@ export default function SideNav() {
                             onClick={() => {
                                 setActiveTab('today\'s task');
                                 router.push('/todaystask');
+                                setIsNavOpen(false);
                             }}
                             className={`${(activeTab === 'today\'s task') && 'bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4'} group flex items-center px-3 py-3 text-sm font-medium`}
                         >
@@ -61,6 +82,7 @@ export default function SideNav() {
                             onClick={() => {
                                 setActiveTab('settings');
                                 router.push('/settings');
+                                setIsNavOpen(false);
                             }}
                             className={`${(activeTab === 'settings') && 'bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4'} group flex items-center px-3 py-3 text-sm font-medium`}
                         >

@@ -7,7 +7,7 @@ import { useNavContext } from "./contexts/hooks/navcontexthook";
 export default function Header() {
   const [user, setUser] = useState(null);
 
-  const { activeTab } = useNavContext();
+  const { activeTab, windowWidth, isNavOpen, setIsNavOpen } = useNavContext();
 
   useEffect(() => {
     setUser(getUser());
@@ -29,7 +29,24 @@ export default function Header() {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <h1 className="text-xl font-bold text-gray-900">
-              <span className="text-indigo-600 capitalize">{activeTab}</span>
+              <span className="text-indigo-600 capitalize">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  className={`w-8 h-8 text-indigo-600 font-bold ${(windowWidth >= 680) || isNavOpen ? 'hidden' : 'inline'} cursor-pointer mr-4`}
+                  onClick={() => setIsNavOpen(true)}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+                {activeTab}
+              </span>
             </h1>
           </div>
           <div className="flex items-center space-x-4">

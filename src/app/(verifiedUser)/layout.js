@@ -13,7 +13,7 @@ export default function UserPanelLayout({ children }) {
                 <NavContextProvider>
                     <div className="flex h-screen bg-gray-50">
 
-                        <div className="hidden md:flex md:flex-shrink-0">
+                        <div className="flex flex-shrink-0">
                             <SideNav />
                         </div>
 

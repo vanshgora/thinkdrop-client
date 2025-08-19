@@ -4,7 +4,7 @@ import { useContext } from "react"
 import { NavContext } from ".."
 
 export const useNavContext = () => {
-    const { activeTab, setActiveTab } = useContext(NavContext);
+    const { activeTab, setActiveTab, isNavOpen, setIsNavOpen, windowWidth } = useContext(NavContext);
 
-    return { activeTab, setActiveTab };
+    return { activeTab, setActiveTab, isNavOpen, setIsNavOpen, windowWidth };
 }

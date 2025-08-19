@@ -9,7 +9,10 @@ const PopupMessageContext = createContext({
 
 const NavContext = createContext({
     activeTab: 'dashboard',
-    setActiveTab: () => { }
+    setActiveTab: () => { },
+    isNavOpen: false,
+    setIsNavOpen: () => {},
+    windowWidth: 1024,
 });
 
 export { PopupMessageContext, NavContext }
