@@ -172,13 +172,6 @@ export default function ForgotPassword() {
                     </>
                 )}
 
-                {/* {step === 3 && (
-                    <div className="auth-success-message">
-                        <p>{submitMessage}</p>
-                        <a href="/login" className="auth-link">Back to Login</a>
-                    </div>
-                )} */}
-
                 {(step === 1 || step === 2) && (
                     <button
                         type="submit"
@@ -207,7 +200,7 @@ export default function ForgotPassword() {
             </form>
 
             <footer className="auth-footer">
-                {(step === 3) ? 'Got new password?, now ' : 'Remember your password?'} <a onClick={() => router.push('/login')} className="auth-link">Login here</a>
+                {(step === 3) ? 'Got new password?, now ' : 'Remember your password?'} <a onClick={() => router.push('/login')} className="auth-link cursor-pointer">Login here</a>
             </footer>
         </div>
     );

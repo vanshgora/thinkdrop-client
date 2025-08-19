@@ -50,6 +50,7 @@ const setNewPassword = async (data) => {
         const res = await axios.patch(`${apiURL}/users/setnewpassword`, data, {
             withCredentials: true,
         });
+        setUser(res.data.user);
         return res;
     } catch (err) {
         console.log("Error in signup service:", err);
