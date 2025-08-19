@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setUser } from './userServices';
+import { getUser, setUser } from './userServices';
 
 const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -31,4 +31,30 @@ const loginService = async (data) => {
     }
 }
 
-export { signupService, loginService };
+const forgotPasswordService = async (data) => {
+     try {
+        const res = await axios.post(`${apiURL}/users/forgotpassword`, data, {
+            withCredentials: true,
+        });
+        return res;
+    } catch (err) {
+        console.log("Error in signup service:", err);
+        throw (err);
+    }
+};
+
+const setNewPassword = async (data) => {
+     try {
+        const user = getUser();
+        data.userId = user._id;
+        const res = await axios.patch(`${apiURL}/users/setnewpassword`, data, {
+            withCredentials: true,
+        });
+        return res;
+    } catch (err) {
+        console.log("Error in signup service:", err);
+        throw (err);
+    }
+};
+
+export { signupService, loginService, forgotPasswordService, setNewPassword };

@@ -56,9 +56,7 @@ export default function LogIn() {
 
     return (
         <>
-
             <form id="loginForm" onSubmit={handleSubmit(onSubmit)}>
-
                 <div className="auth-form-group">
                     <label htmlFor="email">Email</label>
                     <input
@@ -96,6 +94,11 @@ export default function LogIn() {
                         name="password"
                         render={({ message }) => <p className="error-text">{message}</p>}
                     />
+                    <div className="text-right mt-1">
+                        <a href="/forgotpassword" className="text-sm text-white hover:underline">
+                            Forgot password?
+                        </a>
+                    </div>
                 </div>
 
                 <button
@@ -120,7 +123,6 @@ export default function LogIn() {
                     {submitMessage}
                 </div>
             </form>
-
 
             <footer className="auth-footer">
                 Want to start a new journey? <a href="/signup">Create Account</a>
