@@ -3,6 +3,7 @@
 import EventControlSec from "./eventControlSec"
 import RescheduleSec from "./rescheduleSec"
 import DeleteAccount from "./deleteAccount"
+import ResetPasswordSec from "./resetPasswordSec"
 
 export default function Settings() {
     return (
@@ -11,6 +12,8 @@ export default function Settings() {
                 <RescheduleSec />
                 <EventControlSec />
             </div>
+
+            <ResetPasswordSec/>
             
             <DeleteAccount />
         </div>

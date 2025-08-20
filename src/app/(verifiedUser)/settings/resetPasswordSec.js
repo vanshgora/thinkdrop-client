@@ -1,0 +1,122 @@
+'use client';
+import { useState } from "react";
+import { usePopupMessageContext } from "../contexts/hooks/popupmessagecontexthook";
+import { resetPassword } from "@/services/userServices";
+
+export default function ResetPasswordSec() {
+    const [loading, setLoading] = useState(false);
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+
+    const { showPopup } = usePopupMessageContext();
+
+    const validatePassword = () => {
+        if (password.length < 8) {
+            return "Password must be at least 8 characters long";
+        }
+        if (password !== confirmPassword) {
+            return "Passwords do not match";
+        }
+        return "";
+    };
+
+    const handleClick = async () => {
+        if (loading) return;
+
+        const error = validatePassword();
+        if (error) {
+            setPasswordError(error);
+            return;
+        }
+
+        setPasswordError("");
+        setLoading(true);
+
+        try {
+            await resetPassword({ password: password });
+            showPopup("Password Reset Successfully", "success");
+            setPassword("");
+            setConfirmPassword("");
+        } catch (error) {
+            showPopup("Password Reset Failed", "error");
+            console.error("Failed to reset password:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        if (passwordError) setPasswordError("");
+    };
+
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+        if (passwordError) setPasswordError("");
+    };
+
+    return (
+        <section className='bg-white rounded-xl shadow-md p-6 border border-gray-200'>
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">Reset Password</h2>
+            <div className='update-form space-y-4'>
+                <div>
+                    <label htmlFor="password"
+                        className="block text-sm font-medium text-gray-700 mb-2">
+                        New Password
+                    </label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        className="block w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        required
+                        value={password}
+                        onChange={handlePasswordChange}
+                        placeholder="Enter your new password"
+                    />
+                </div>
+
+                <div>
+                    <label htmlFor="confirm-password"
+                        className="block text-sm font-medium text-gray-700 mb-2">
+                        Confirm Password
+                    </label>
+                    <input
+                        id="confirm-password"
+                        name="confirm-password"
+                        type="password"
+                        className="block w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        required
+                        value={confirmPassword}
+                        onChange={handleConfirmPasswordChange}
+                        placeholder="Confirm your new password"
+                    />
+                </div>
+
+                {passwordError && (
+                    <p className="text-red-500 text-sm mt-2">{passwordError}</p>
+                )}
+
+                <button
+                    onClick={handleClick}
+                    disabled={loading}
+                    className={`cursor-pointer mt-2 w-full text-white font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out
+        ${loading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"}`}>
+                    {loading ? (
+                        <div className="flex items-center justify-center">
+                            <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                            </svg>
+                            Resetting...
+                        </div>
+                    ) : (
+                        "Reset Password"
+                    )}
+                </button>
+
+            </div>
+        </section>
+    )
+}

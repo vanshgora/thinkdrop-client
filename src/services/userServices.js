@@ -66,21 +66,34 @@ const getTodaysTask = async () => {
 }
 
 const deleteAccount = async () => {
-       try {
+    try {
         const user = getUser();
-        console.log(user);
         const res = await axios.delete(`${apiURL}/users/deleteaccount/${user._id}`, {
             withCredentials: true
         });
-        if(res && res.status != 200) {
-            throw("Server side error while deleting account")
+        if (res && res.status != 200) {
+            throw ("Server side error while deleting account")
         }
         deleteUser();
         return res;
     } catch (err) {
         console.log("Error while deleting account", err);
-        throw(err);
+        throw (err);
     }
 }
 
-export { getUser, setUser, updateEmialDelivery, reSchedule, logout, getTodaysTask, deleteAccount }
+const resetPassword = async (data) => {
+    try {
+        const user = getUser();
+        data.userId = user._id;
+        const res = await axios.patch(`${apiURL}/users/resetpassword`, data, {
+            withCredentials: true
+        });
+        setUser(res.data.user);
+    } catch (err) {
+        console.log("Error while resetting password", err);
+        throw (err);
+    }
+};
+
+export { getUser, setUser, updateEmialDelivery, reSchedule, logout, getTodaysTask, deleteAccount, resetPassword }
