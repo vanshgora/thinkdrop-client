@@ -57,7 +57,7 @@ export default function TodaysTask() {
         const { before, link, after } = extractLinkParts(resource);
         return (
             <>
-                {before + ' '} <a href={link}>{link}</a> {' ' + after};
+                {before + ' '} <a href={link} className="cursor-pointer">{link}</a> {' ' + after};
             </>
         );
     }
