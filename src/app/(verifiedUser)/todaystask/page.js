@@ -21,7 +21,7 @@ export default function TodaysTask() {
         return (
             <li key={index} className="text-gray-700">
                 {parts.map((part, i) =>
-                    i % 2 === 1 ? ( 
+                    i % 2 === 1 ? (
                         <span key={i} className="text text-indigo-600 font-bold">
                             {part}
                         </span>
@@ -30,6 +30,35 @@ export default function TodaysTask() {
                     )
                 )}
             </li>
+        );
+    }
+
+    function extractLinkParts(str) {
+        const regex = /(https?:\/\/[^\s]+)/;
+
+        const match = str.match(regex);
+
+        if (!match) {
+            return {
+                before: str,
+                link: null,
+                after: ""
+            };
+        }
+
+        const link = match[0];
+        const before = str.substring(0, match.index);
+        const after = str.substring(match.index + link.length);
+
+        return { before, link, after };
+    }
+
+    const formatResource = (resource) => {
+        const { before, link, after } = extractLinkParts(resource);
+        return (
+            <>
+                {before + ' '} <a href={link}>{link}</a> {' ' + after};
+            </>
         );
     }
 
@@ -76,7 +105,9 @@ export default function TodaysTask() {
                 <ul className="space-y-2">
                     {todaysTopic && todaysTopic.resources.map((resource) => (
                         <li key={resource} className="text-indigo-600 hover:text-indigo-800 transition duration-150">
-                            {resource}
+                            {
+                                formatResource(resource)
+                            }
                         </li>
                     ))}
                 </ul>
