@@ -26,7 +26,7 @@ const isLoggedIn = async () => {
         return res;
     } catch (err) {
         console.log("Error in signup service:", err);
-        throw (err);
+        return err;
     }
 }
 
