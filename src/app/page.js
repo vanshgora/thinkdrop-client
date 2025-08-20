@@ -1,6 +1,21 @@
+'use client'
+import { useRouter } from 'next/navigation';
 import './home.css'
+import { isLoggedIn } from '@/services/authServices';
 
 export default function Home() {
+
+  const router = useRouter();
+
+  const handleClick = async () => {
+    const res = await isLoggedIn();
+    console.log(res);
+    if(res.status === 200) {
+      router.push('/dashboard');
+    } else {
+      router.push('/login');
+    }
+  }
 
   return (
     <>
@@ -32,7 +47,7 @@ export default function Home() {
               Wake up to a new challenge everyday at your selected timing. Receive emails with random topics,
               creative tasks, and brain-bending problems designed to build your multidimensional skillset.
             </p>
-            <a href="/login" className="home-hero-button">
+            <a onClick={handleClick} className="home-hero-button">
               Get Started
             </a>
           </div>

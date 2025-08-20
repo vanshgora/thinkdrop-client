@@ -18,6 +18,18 @@ const signupService = async (data) => {
     }
 }
 
+const isLoggedIn = async () => {
+    try {
+        const res = await axios.get(`${apiURL}/users/isloggedin`, {
+            withCredentials: true,
+        });
+        return res;
+    } catch (err) {
+        console.log("Error in signup service:", err);
+        throw (err);
+    }
+}
+
 const loginService = async (data) => {
     try {
         const res = await axios.post(`${apiURL}/users/login`, data, {
@@ -58,4 +70,4 @@ const setNewPassword = async (data) => {
     }
 };
 
-export { signupService, loginService, forgotPasswordService, setNewPassword };
+export { signupService, loginService, forgotPasswordService, setNewPassword, isLoggedIn };
