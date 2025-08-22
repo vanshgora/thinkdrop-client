@@ -19,6 +19,7 @@ export const NavContextProvider = ({ children }) => {
 
     useEffect(() => {
         setActiveTab(pathTabMap[pathName]);
+        if(windowWidth > 680) setIsNavOpen(true);
     }, [pathName]);
 
     const handleWindowResize = () => {

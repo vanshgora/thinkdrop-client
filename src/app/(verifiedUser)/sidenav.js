@@ -10,7 +10,7 @@ export default function SideNav() {
 
     return (
         <>
-            {isNavOpen && (windowWidth < 680) ? <div className='fixed w-[100vw] h-[100vh] bg-indigo-600/50'></div> : <></>}
+            {isNavOpen && (windowWidth < 680) ? <div className='fixed w-[100vw] h-[100vh] bg-indigo-400/50'></div> : <></>}
             <div className={`${windowWidth < 680 ? 'fixed z-50' : ''} flex flex-col h-[100vh] ${isNavOpen ? 'w-64' : 'w-0'} border-r border-gray-200 bg-white`}>
 
                 <div className="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">

@@ -8,7 +8,7 @@ export default function RouteWatcher() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const pupbicPaths = ['/', '/login', '/signup', 'forgotpassword'];
+  const pupbicPaths = ['/', '/login', '/signup', '/forgotpassword'];
 
   useEffect(() => {
     if (!pathname) return;
