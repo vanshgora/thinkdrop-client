@@ -2,11 +2,14 @@
 import { useRouter } from 'next/navigation';
 import { useNavContext } from './contexts/hooks/navcontexthook'
 import { useState, useEffect } from 'react';
+import { timeTagMap } from '@/utils/data';
+import { getUser } from '@/services/userServices';
 
 export default function SideNav() {
     const { activeTab, setActiveTab, isNavOpen, setIsNavOpen, windowWidth } = useNavContext();
     const [isHovering, setIsHovering] = useState(false);
     const router = useRouter();
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -23,6 +26,21 @@ export default function SideNav() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [windowWidth, isNavOpen, setIsNavOpen]);
+
+    useEffect(() => setUser(getUser), []);
+
+    const abbreviate = (name) => {
+        if (!name) return "U";
+        const nameArr = name.split(' ');
+        const resultArr = [];
+        for (let i = 0; i < nameArr.length; i++) {
+            if (nameArr[i].length > 0) {
+                resultArr.push(nameArr[i][0].toUpperCase());
+            }
+            if (i >= 1) break;
+        }
+        return resultArr.join('');
+    }
 
     const navItems = [
         {
@@ -132,17 +150,17 @@ export default function SideNav() {
                         ))}
                     </nav>
 
-                    {/* <div className={`mt-auto px-2 py-4 border-t border-gray-200 ${(windowWidth >= 680 && !isNavOpen && !isHovering) ? 'hidden' : ''}`}>
+                    <div className={`mt-auto px-2 py-4 border-t border-gray-200 ${(windowWidth >= 680 && !isNavOpen && !isHovering) ? 'hidden' : ''}`}>
                         <div className="flex items-center px-3 py-2">
                             <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center">
-                                <span className="text-indigo-600 font-medium">U</span>
+                                <span className="text-indigo-600 font-medium">{user && abbreviate(user.name)}</span>
                             </div>
                             <div className="ml-3">
-                                <p className="text-sm font-medium text-gray-700">User Name</p>
-                                <p className="text-xs text-gray-500">Administrator</p>
+                                <p className="text-sm font-medium text-gray-700">{user && user.name}</p>
+                                <p className="text-xs text-gray-500">{user && timeTagMap[user?.preferredTime]}</p>
                             </div>
                         </div>
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </>
