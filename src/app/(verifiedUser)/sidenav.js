@@ -153,7 +153,7 @@ export default function SideNav() {
                     <div className={`mt-auto px-2 py-4 border-t border-gray-200 ${(windowWidth >= 680 && !isNavOpen && !isHovering) ? 'hidden' : ''}`}>
                         <div className="flex items-center px-3 py-2">
                             <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center">
-                                <span className="text-indigo-600 font-medium">{user && abbreviate(user.name)}</span>
+                                <span className="text-indigo-600 font-medium">{user ? abbreviate(user.name): 'U'}</span>
                             </div>
                             <div className="ml-3">
                                 <p className="text-sm font-medium text-gray-700">{user && user.name}</p>
