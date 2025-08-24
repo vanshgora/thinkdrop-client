@@ -82,6 +82,19 @@ const getUserTasks = async () => {
     }
 }
 
+const updateUserTasks = async (data) => {
+    try {
+        const user = getUser();
+        data.userId = user._id;
+        const res = await axios.patch(`${apiURL}/users/updateusertasks`, data, {
+            withCredentials: true
+        });
+        return res;
+    } catch (err) {
+        console.log("Error while getting user tasks", err);
+    }
+}
+
 const deleteAccount = async () => {
     try {
         const user = getUser();
@@ -113,4 +126,4 @@ const resetPassword = async (data) => {
     }
 };
 
-export { getUser, setUser, updateEmialDelivery, reSchedule, logout, getTodaysTask, deleteAccount, resetPassword, getUserTasks }
+export { getUser, setUser, updateEmialDelivery, reSchedule, logout, getTodaysTask, deleteAccount, resetPassword, getUserTasks, updateUserTasks }

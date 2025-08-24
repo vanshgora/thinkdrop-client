@@ -8,7 +8,6 @@ export default function ProfileSec() {
     const [user, setUser] = useState(null);
     const [userTasks, setUserTasks] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [showEditModal, setShowEditModal] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -25,7 +24,6 @@ export default function ProfileSec() {
             const res = await getUserTasks();
             setUserTasks(res.data.userTasks);
         }
-
         initilzeUserTasks();
     }, []);
 
