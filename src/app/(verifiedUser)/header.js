@@ -92,7 +92,7 @@ export default function Header() {
 
             <div className="relative" ref={userMenuRef}>
               <button
-                className="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="flex items-center text-sm cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={() => setShowUserMenu(!showUserMenu)}
                 aria-label="User menu"
               >
@@ -114,12 +114,12 @@ export default function Header() {
                     <p className="text-xs text-gray-500 truncate">{user?.email || 'user@example.com'}</p>
                   </div>
                   <div className="py-1">
-                    <a href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                    <a href="/settings" className="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                   </div>
                   <div className="py-1 border-t border-gray-200">
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block w-full cursor-pointer text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Sign out
                     </button>

@@ -133,7 +133,7 @@ export default function SideNav() {
                             <button
                                 key={item.id}
                                 onClick={() => handleNavigation(item)}
-                                className={`group flex items-center w-full px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200
+                                className={`group cursor-pointer flex items-center w-full px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200
                                     ${activeTab === item.id
                                         ? 'bg-indigo-50 text-indigo-700 border-r-2 border-indigo-600 shadow-sm'
                                         : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'

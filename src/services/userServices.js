@@ -70,6 +70,18 @@ const getTodaysTask = async () => {
     }
 }
 
+const getUserTasks = async () => {
+    try {
+        const user = getUser();
+        const res = await axios.get(`${apiURL}/users/getusertasks/${user._id}`, {
+            withCredentials: true
+        });
+        return res;
+    } catch (err) {
+        console.log("Error while getting user tasks", err);
+    }
+}
+
 const deleteAccount = async () => {
     try {
         const user = getUser();
@@ -101,4 +113,4 @@ const resetPassword = async (data) => {
     }
 };
 
-export { getUser, setUser, updateEmialDelivery, reSchedule, logout, getTodaysTask, deleteAccount, resetPassword }
+export { getUser, setUser, updateEmialDelivery, reSchedule, logout, getTodaysTask, deleteAccount, resetPassword, getUserTasks }
