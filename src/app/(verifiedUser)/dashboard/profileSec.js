@@ -28,14 +28,25 @@ export default function ProfileSec() {
     }, []);
 
     const completedTaskNum = useMemo(() => {
-        if(!userTasks) return 0;
-        return Object.keys(userTasks.tasks).filter(t => t.length && !t.find(false)).length;
-    }, []);
+        if (!userTasks || !userTasks.tasks) return 0;
+        
+        let completedCount = 0;
+        Object.values(userTasks.tasks).forEach(dayTasks => {
+            // Check if all tasks for the day are completed (all true)
+            if (dayTasks.taskTrack && dayTasks.taskTrack.every(task => task === true)) {
+                completedCount++;
+            }
+        });
+        
+        return completedCount;
+    }, [userTasks]);
 
     const successRate = useMemo(() => {
-        if(!userTasks || !completedTaskNum || completedTaskNum == 0) return 0;
-        return completedTaskNum*100/Object.keys(userTasks.tasks).length;
-    }, []);
+        if (!userTasks || !userTasks.tasks || Object.keys(userTasks.tasks).length === 0) return 0;
+        
+        const totalDays = Object.keys(userTasks.tasks).length;
+        return Math.round((completedTaskNum / totalDays) * 100);
+    }, [userTasks, completedTaskNum]);
 
     const getTimeString = useCallback((time) => {
         if (!time) return "Not set";
@@ -100,15 +111,6 @@ export default function ProfileSec() {
                         </svg>
                         Profile Information
                     </h2>
-                    {/* <button 
-                        onClick={() => setShowEditModal(true)}
-                        className="text-indigo-600 hover:text-indigo-800 p-2 rounded-lg hover:bg-indigo-50 transition-colors"
-                        title="Edit profile"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                        </svg>
-                    </button> */}
                 </div>
 
                 <div className='personal-info flex flex-col sm:flex-row items-center gap-6'>
@@ -182,29 +184,6 @@ export default function ProfileSec() {
                     </div>
                 </div>
             </section>
-
-            {/* {showEditModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl p-6 w-full max-w-md">
-                        <h3 className="text-lg font-semibold mb-4">Edit Profile</h3>
-                        <p className="text-gray-600 mb-4">Profile editing functionality would go here.</p>
-                        <div className="flex justify-end gap-3">
-                            <button
-                                onClick={() => setShowEditModal(false)}
-                                className="px-4 py-2 text-gray-600 hover:text-gray-800"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={() => setShowEditModal(false)}
-                                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-                            >
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )} */}
         </>
     );
 }

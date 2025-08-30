@@ -10,6 +10,7 @@ export default function TodaysTask() {
     const [error, setError] = useState(null);
     const [completedTasks, setCompletedTasks] = useState(new Set());
     const [progress, setProgress] = useState(0);
+    const [saving, setSaving] = useState(false);
 
     const { showPopup } = usePopupMessageContext();
 
@@ -168,16 +169,19 @@ export default function TodaysTask() {
 
     const handleTaskUpdate = async () => {
         try {
+            setSaving(true);
             const updatedTaskTrack = todaysTopic.task.map((t, i) => completedTasks.has(i));
             const res = await updateUserTasks({ taskTrackArr: updatedTaskTrack });
             if (res.status === 200) {
-                showPopup('Task Updated Succcessfully', 'success');
+                showPopup('Task Updated Successfully', 'success');
             } else {
                 showPopup('Operation failed please try again', 'error');
             }
         } catch (err) {
             console.log('Error while handling task update', err);
             showPopup('Operation failed please try again', 'error');
+        } finally {
+            setSaving(false);
         }
     }
 
@@ -314,9 +318,24 @@ export default function TodaysTask() {
                     ))}
 
                     <div className="flex justify-end">
-                        <button className="bg-indigo-600 text-white px-8 text-lg py-2 rounded mt-3 cursor-pointer"
-                            onClick={handleTaskUpdate}>
-                            Save
+                        <button 
+                            className={`flex items-center justify-center bg-indigo-600 text-white px-8 text-lg py-2 rounded mt-3 cursor-pointer transition-all duration-200 ${
+                                saving ? 'opacity-75 cursor-not-allowed' : 'hover:bg-indigo-700'
+                            }`}
+                            onClick={handleTaskUpdate}
+                            disabled={saving}
+                        >
+                            {saving ? (
+                                <>
+                                    <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Saving...
+                                </>
+                            ) : (
+                                'Save'
+                            )}
                         </button>
                     </div>
                 </div>
