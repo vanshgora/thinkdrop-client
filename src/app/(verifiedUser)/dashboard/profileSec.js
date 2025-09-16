@@ -32,7 +32,6 @@ export default function ProfileSec() {
         
         let completedCount = 0;
         Object.values(userTasks.tasks).forEach(dayTasks => {
-            // Check if all tasks for the day are completed (all true)
             if (dayTasks.taskTrack && dayTasks.taskTrack.every(task => task === true)) {
                 completedCount++;
             }
